@@ -333,12 +333,13 @@ export const register: Register = on => {
     const list = await read($, limits)
     const now = await $.clock.now()
     const leftMs = (await read($, isWorking)) ? (data?.cache?.ttlMin ?? 60) * MINUTE : cacheLeftMs(data, await read($, lastCall), now)
-    const width = Math.max(32, Math.min(e.props.bodyColumns - 2, 100))
+    const full = Math.max(32, e.props.bodyColumns - 2)
+    const width = Math.min(full, 100)
     // The terminal band has few rows: no blank line above each table there.
     const isTerminal = e.surface === 'terminal'
 
-    const row = (left: unknown, right: unknown) => (
-      <Box flexDirection="row" justifyContent="space-between" width={width}>
+    const row = (left: unknown, right: unknown, rowWidth = width) => (
+      <Box flexDirection="row" justifyContent="space-between" width={rowWidth}>
         {left}
         {right}
       </Box>
@@ -361,14 +362,14 @@ export const register: Register = on => {
           </Text>
         </Box>
       ))
-    const section = (title: string, period: UsagePeriod | null, color?: string, note?: string) => {
+    const section = (title: string, period: UsagePeriod | null, color?: string, note?: string, sectionWidth = width) => {
       const models = period?.models ?? []
       const total = models.reduce(
         (sum, one) => ({ input: sum.input + one.input, cacheRead: sum.cacheRead + one.cacheRead, cacheWrite: sum.cacheWrite + one.cacheWrite }),
         { input: 0, cacheRead: 0, cacheWrite: 0 },
       )
       return (
-        <Box flexDirection="column">
+        <Box flexDirection="column" width={sectionWidth}>
           {row(
             <Text>
               <Text bold>{title}</Text>
@@ -382,6 +383,7 @@ export const register: Register = on => {
                 {usd(period?.usd ?? 0)}
               </Text>
             </Text>,
+            sectionWidth,
           )}
           {note && <Text color={color}>{note}</Text>}
           {models.length === 0 ? (
@@ -420,6 +422,23 @@ export const register: Register = on => {
       )
     }
 
+    const five = list.find(limit => limit.kind === 'five_hour')
+    const tz = data?.tzOffsetMin ?? 0
+    const windows: Array<[string, UsagePeriod | null, UsageLimit | undefined, number]> = [
+      ['5-hour window', data?.window ?? null, five, 5 * HOUR],
+      ['Weekly window', data?.week ?? null, weekLimit(list), 7 * DAY],
+    ]
+    if (fableLimit(list) || (data?.fableWeek?.usd ?? 0) > 0) {
+      windows.push(['Weekly · Fable', data?.fableWeek ?? null, fableLimit(list), 7 * DAY])
+    }
+    // A wide terminal lays the windows side by side; each needs the table's 80 columns.
+    const GAP = 4
+    const sideWidth = Math.floor((full - GAP * (windows.length - 1)) / windows.length)
+    const isSideBySide = isTerminal && sideWidth >= 82
+    const sections = windows.map(([title, period, limit, lengthMs]) =>
+      section(title, period, paceColor(limit, lengthMs, now), forecast(limit, lengthMs, now, tz), isSideBySide ? sideWidth : width),
+    )
+
     return (
       <Box flexDirection="column" gap={1} paddingX={1}>
         {row(
@@ -430,11 +449,15 @@ export const register: Register = on => {
             </Text>
           </Text>,
           <Button key="close" plain dimColor label="✕" onPress={() => void update($, isOpen, () => false)} />,
+          isSideBySide ? full : width,
         )}
-        {section('5-hour window', data?.window ?? null, paceColor(list.find(limit => limit.kind === 'five_hour'), 5 * HOUR, now), forecast(list.find(limit => limit.kind === 'five_hour'), 5 * HOUR, now, data?.tzOffsetMin ?? 0))}
-        {section('Weekly window', data?.week ?? null, paceColor(weekLimit(list), 7 * DAY, now), forecast(weekLimit(list), 7 * DAY, now, data?.tzOffsetMin ?? 0))}
-        {(fableLimit(list) || (data?.fableWeek?.usd ?? 0) > 0) &&
-          section('Weekly · Fable', data?.fableWeek ?? null, paceColor(fableLimit(list), 7 * DAY, now), forecast(fableLimit(list), 7 * DAY, now, data?.tzOffsetMin ?? 0))}
+        {isSideBySide ? (
+          <Box flexDirection="row" gap={GAP}>
+            {sections}
+          </Box>
+        ) : (
+          sections
+        )}
         {failure && <Text color={DANGER}>Scan error: {failure}</Text>}
         <Text dimColor>At API list prices · all sessions and subagents included</Text>
       </Box>

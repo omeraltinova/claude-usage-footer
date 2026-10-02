@@ -42,7 +42,7 @@ for (const surface of ['terminal', 'desktop'] as const) {
       plugin: 'usage-footer',
       surface,
       component: 'AbovePrompt',
-      props: { hasSurvey: false, isWorking: false, maxRows: 40, bodyColumns: 100, scroll: { top: 0, bodyRows: 40, contentRows: 40 }, view: {} } as never,
+      props: { hasSurvey: false, isWorking: false, maxRows: 40, bodyColumns: surface === 'terminal' ? 260 : 100, scroll: { top: 0, bodyRows: 40, contentRows: 40 }, view: {} } as never,
     })
     expect(await band.find({ type: 'Text', text: /Weekly · Fable/ })).toBeDefined()
     expect(await band.find({ type: 'Text', text: /Fable 5\.1/ })).toBeDefined()
