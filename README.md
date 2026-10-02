@@ -2,6 +2,8 @@
 
 A Claude Code mod that puts your usage where you look anyway: beside the model name under the prompt.
 
+![usage-footer in the terminal: the footer under the prompt and the card above it](docs/screenshot.svg)
+
 ```
 ▾ ◷42 — 5h $82 — 7d $115
 ```

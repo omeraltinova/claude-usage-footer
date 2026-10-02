@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="805" height="572" viewBox="0 0 805 572">
+<rect width="100%" height="100%" rx="10" fill="#141414"/>
+<rect x="6" y="6" width="793" height="424" rx="8" fill="#1e1e1e"/>
+<g font-family="ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace" font-size="14" xml:space="preserve">
+<text x="24.4" y="30" fill="#d4d4d4" font-weight="bold" textLength="117.6" lengthAdjust="spacingAndGlyphs">API equivalent</text>
+<text x="158.8" y="30" fill="#8a8a8a" textLength="142.8" lengthAdjust="spacingAndGlyphs">cache 42 min left</text>
+<text x="713.2" y="30" fill="#8a8a8a" textLength="8.4" lengthAdjust="spacingAndGlyphs">×</text>
+<text x="755.2" y="30" fill="#8a8a8a" textLength="25.2" lengthAdjust="spacingAndGlyphs">[-]</text>
+<text x="24.4" y="70" fill="#d4d4d4" font-weight="bold" textLength="109.2" lengthAdjust="spacingAndGlyphs">5-hour window</text>
+<text x="150.4" y="70" fill="#8a8a8a" textLength="109.2" lengthAdjust="spacingAndGlyphs">14:00 – 19:00</text>
+<text x="713.2" y="70" fill="#3fb950" font-weight="bold" textLength="50.4" lengthAdjust="spacingAndGlyphs">$18.42</text>
+<text x="562.0" y="70" fill="#8a8a8a" textLength="126.0" lengthAdjust="spacingAndGlyphs">cache hit 99.6%</text>
+<text x="24.4" y="90" fill="#3fb950" textLength="420.0" lengthAdjust="spacingAndGlyphs">On pace: won't fill · ~58% at window end · now 31%</text>
+<text x="24.4" y="110" fill="#8a8a8a" textLength="42.0" lengthAdjust="spacingAndGlyphs">Model</text>
+<text x="158.8" y="110" fill="#8a8a8a" textLength="33.6" lengthAdjust="spacingAndGlyphs">Reqs</text>
+<text x="217.6" y="110" fill="#8a8a8a" textLength="42.0" lengthAdjust="spacingAndGlyphs">Input</text>
+<text x="276.4" y="110" fill="#8a8a8a" textLength="84.0" lengthAdjust="spacingAndGlyphs">Cache read</text>
+<text x="377.2" y="110" fill="#8a8a8a" textLength="92.4" lengthAdjust="spacingAndGlyphs">Cache write</text>
+<text x="494.8" y="110" fill="#8a8a8a" textLength="50.4" lengthAdjust="spacingAndGlyphs">Output</text>
+<text x="587.2" y="110" fill="#8a8a8a" textLength="25.2" lengthAdjust="spacingAndGlyphs">Hit</text>
+<text x="662.8" y="110" fill="#8a8a8a" textLength="33.6" lengthAdjust="spacingAndGlyphs">Cost</text>
+<text x="24.4" y="130" fill="#d97757" textLength="8.4" lengthAdjust="spacingAndGlyphs">●</text>
+<text x="41.2" y="130" fill="#d4d4d4" textLength="67.2" lengthAdjust="spacingAndGlyphs">Opus 5.5</text>
+<text x="167.2" y="130" fill="#d4d4d4" textLength="25.2" lengthAdjust="spacingAndGlyphs">148</text>
+<text x="234.4" y="130" fill="#d4d4d4" textLength="25.2" lengthAdjust="spacingAndGlyphs">310</text>
+<text x="318.4" y="130" fill="#d4d4d4" textLength="42.0" lengthAdjust="spacingAndGlyphs">61.2M</text>
+<text x="436.0" y="130" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">402k</text>
+<text x="511.6" y="130" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">128k</text>
+<text x="570.4" y="130" fill="#d4d4d4" textLength="42.0" lengthAdjust="spacingAndGlyphs">99.3%</text>
+<text x="646.0" y="130" fill="#d4d4d4" font-weight="bold" textLength="50.4" lengthAdjust="spacingAndGlyphs">$18.30</text>
+<text x="24.4" y="150" fill="#629987" textLength="8.4" lengthAdjust="spacingAndGlyphs">●</text>
+<text x="41.2" y="150" fill="#d4d4d4" textLength="75.6" lengthAdjust="spacingAndGlyphs">Haiku 4.5</text>
+<text x="184.0" y="150" fill="#d4d4d4" textLength="8.4" lengthAdjust="spacingAndGlyphs">9</text>
+<text x="242.8" y="150" fill="#d4d4d4" textLength="16.8" lengthAdjust="spacingAndGlyphs">74</text>
+<text x="326.8" y="150" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">412k</text>
+<text x="427.6" y="150" fill="#d4d4d4" textLength="42.0" lengthAdjust="spacingAndGlyphs">38.6k</text>
+<text x="511.6" y="150" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">1.9k</text>
+<text x="570.4" y="150" fill="#d4d4d4" textLength="42.0" lengthAdjust="spacingAndGlyphs">90.6%</text>
+<text x="654.4" y="150" fill="#d4d4d4" font-weight="bold" textLength="42.0" lengthAdjust="spacingAndGlyphs">$0.12</text>
+<text x="24.4" y="190" fill="#d4d4d4" font-weight="bold" textLength="109.2" lengthAdjust="spacingAndGlyphs">Weekly window</text>
+<text x="150.4" y="190" fill="#8a8a8a" textLength="176.4" lengthAdjust="spacingAndGlyphs">Thu 11:00 – Thu 11:00</text>
+<text x="704.8" y="190" fill="#f85149" font-weight="bold" textLength="58.8" lengthAdjust="spacingAndGlyphs">$163.75</text>
+<text x="553.6" y="190" fill="#8a8a8a" textLength="126.0" lengthAdjust="spacingAndGlyphs">cache hit 99.4%</text>
+<text x="24.4" y="210" fill="#f85149" textLength="394.8" lengthAdjust="spacingAndGlyphs">On pace: fills ~Wed 10:30 (in 4d 12h) · now 27%</text>
+<text x="24.4" y="230" fill="#8a8a8a" textLength="42.0" lengthAdjust="spacingAndGlyphs">Model</text>
+<text x="158.8" y="230" fill="#8a8a8a" textLength="33.6" lengthAdjust="spacingAndGlyphs">Reqs</text>
+<text x="217.6" y="230" fill="#8a8a8a" textLength="42.0" lengthAdjust="spacingAndGlyphs">Input</text>
+<text x="276.4" y="230" fill="#8a8a8a" textLength="84.0" lengthAdjust="spacingAndGlyphs">Cache read</text>
+<text x="377.2" y="230" fill="#8a8a8a" textLength="92.4" lengthAdjust="spacingAndGlyphs">Cache write</text>
+<text x="494.8" y="230" fill="#8a8a8a" textLength="50.4" lengthAdjust="spacingAndGlyphs">Output</text>
+<text x="587.2" y="230" fill="#8a8a8a" textLength="25.2" lengthAdjust="spacingAndGlyphs">Hit</text>
+<text x="662.8" y="230" fill="#8a8a8a" textLength="33.6" lengthAdjust="spacingAndGlyphs">Cost</text>
+<text x="24.4" y="250" fill="#d97757" textLength="8.4" lengthAdjust="spacingAndGlyphs">●</text>
+<text x="41.2" y="250" fill="#d4d4d4" textLength="67.2" lengthAdjust="spacingAndGlyphs">Opus 5.5</text>
+<text x="158.8" y="250" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">1342</text>
+<text x="226.0" y="250" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">2.7k</text>
+<text x="310.0" y="250" fill="#d4d4d4" textLength="50.4" lengthAdjust="spacingAndGlyphs">512.8M</text>
+<text x="436.0" y="250" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">3.1M</text>
+<text x="511.6" y="250" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">1.4M</text>
+<text x="570.4" y="250" fill="#d4d4d4" textLength="42.0" lengthAdjust="spacingAndGlyphs">99.4%</text>
+<text x="637.6" y="250" fill="#d4d4d4" font-weight="bold" textLength="58.8" lengthAdjust="spacingAndGlyphs">$163.21</text>
+<text x="24.4" y="270" fill="#629987" textLength="8.4" lengthAdjust="spacingAndGlyphs">●</text>
+<text x="41.2" y="270" fill="#d4d4d4" textLength="75.6" lengthAdjust="spacingAndGlyphs">Haiku 4.5</text>
+<text x="175.6" y="270" fill="#d4d4d4" textLength="16.8" lengthAdjust="spacingAndGlyphs">41</text>
+<text x="234.4" y="270" fill="#d4d4d4" textLength="25.2" lengthAdjust="spacingAndGlyphs">330</text>
+<text x="326.8" y="270" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">2.1M</text>
+<text x="436.0" y="270" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">210k</text>
+<text x="511.6" y="270" fill="#d4d4d4" textLength="33.6" lengthAdjust="spacingAndGlyphs">9.4k</text>
+<text x="570.4" y="270" fill="#d4d4d4" textLength="42.0" lengthAdjust="spacingAndGlyphs">90.8%</text>
+<text x="654.4" y="270" fill="#d4d4d4" font-weight="bold" textLength="42.0" lengthAdjust="spacingAndGlyphs">$0.54</text>
+<text x="24.4" y="310" fill="#8a8a8a" textLength="470.4" lengthAdjust="spacingAndGlyphs">At API list prices · all sessions and subagents included</text>
+<text x="16.0" y="350" fill="#3a3a3a" textLength="772.8" lengthAdjust="spacingAndGlyphs">────────────────────────────────────────────────────────────────────────────────────────────</text>
+<text x="16.0" y="370" fill="#d4d4d4" textLength="8.4" lengthAdjust="spacingAndGlyphs">&gt;</text>
+<text x="16.0" y="390" fill="#3a3a3a" textLength="772.8" lengthAdjust="spacingAndGlyphs">────────────────────────────────────────────────────────────────────────────────────────────</text>
+<text x="32.8" y="410" fill="#8a8a8a" textLength="126.0" lengthAdjust="spacingAndGlyphs">? for shortcuts</text>
+<text x="478.0" y="410" fill="#8a8a8a" textLength="8.4" lengthAdjust="spacingAndGlyphs">▾</text>
+<text x="494.8" y="410" fill="#5ec46a" font-weight="bold" textLength="75.6" lengthAdjust="spacingAndGlyphs">cache 42m</text>
+<text x="578.8" y="410" fill="#8a8a8a" textLength="8.4" lengthAdjust="spacingAndGlyphs">—</text>
+<text x="595.6" y="410" fill="#3fb950" font-weight="bold" textLength="75.6" lengthAdjust="spacingAndGlyphs">5h $18.42</text>
+<text x="679.6" y="410" fill="#8a8a8a" textLength="8.4" lengthAdjust="spacingAndGlyphs">—</text>
+<text x="696.4" y="410" fill="#f85149" font-weight="bold" textLength="84.0" lengthAdjust="spacingAndGlyphs">7d $163.75</text>
+<text x="16.0" y="470" fill="#d4d4d4" font-weight="bold" textLength="50.4" lengthAdjust="spacingAndGlyphs">Footer</text>
+<text x="83.2" y="470" fill="#8a8a8a" textLength="546.0" lengthAdjust="spacingAndGlyphs">cache countdown, green to red · 5h / 7d: API-equivalent $ of your</text>
+<text x="83.2" y="490" fill="#8a8a8a" textLength="487.2" lengthAdjust="spacingAndGlyphs">limit windows, red when the limit will not last the window</text>
+<text x="16.0" y="510" fill="#d4d4d4" font-weight="bold" textLength="33.6" lengthAdjust="spacingAndGlyphs">Card</text>
+<text x="83.2" y="510" fill="#8a8a8a" textLength="546.0" lengthAdjust="spacingAndGlyphs">click ▾ or run /usage-footer · on a wide terminal the windows sit</text>
+<text x="83.2" y="530" fill="#8a8a8a" textLength="529.2" lengthAdjust="spacingAndGlyphs">side by side · on the Desktop app the footer reads ◷42 — 5h $18</text>
+<text x="16.0" y="550" fill="#8a8a8a" textLength="126.0" lengthAdjust="spacingAndGlyphs">Sample numbers.</text>
+</g></svg>
