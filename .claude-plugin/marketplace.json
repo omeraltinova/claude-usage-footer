@@ -1,0 +1,14 @@
+{
+  "name": "claude-usage-footer",
+  "description": "Claude Code mods for keeping an eye on usage and cost",
+  "owner": {
+    "name": "Ömer Faruk Altınova"
+  },
+  "plugins": [
+    {
+      "name": "usage-footer",
+      "source": "./plugins/usage-footer",
+      "description": "Prompt cache countdown and the API-equivalent cost of your 5-hour and weekly limit windows beside the model name, with a per-model token and cost card"
+    }
+  ]
+}

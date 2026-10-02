@@ -1,0 +1,20 @@
+{
+  "name": "usage-footer",
+  "version": "1.0.0",
+  "description": "Footer beside the model name: prompt cache countdown and the API-equivalent cost of your 5-hour and weekly limit windows, colored by whether the limit will last. Click for a per-model token and cost breakdown.",
+  "author": {
+    "name": "Ömer Faruk Altınova"
+  },
+  "homepage": "https://github.com/omeraltinova/claude-usage-footer",
+  "repository": "https://github.com/omeraltinova/claude-usage-footer",
+  "license": "MIT",
+  "keywords": [
+    "usage",
+    "cost",
+    "limits",
+    "prompt-cache",
+    "statusline",
+    "mod"
+  ],
+  "types": "./types/index.d.ts"
+}
