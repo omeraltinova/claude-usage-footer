@@ -448,8 +448,16 @@ export const register: Register = on => {
               {'  '}cache {leftMs === undefined ? '—' : leftMs > 0 ? `${Math.ceil(leftMs / MINUTE)} min left` : 'expired'}
             </Text>
           </Text>,
-          <Button key="close" plain dimColor label="✕" onPress={() => void update($, isOpen, () => false)} />,
-          isSideBySide ? full : width,
+          <Button
+            key="close"
+            plain
+            dimColor
+            label={isTerminal ? '✕ close' : '✕'}
+            hotkey="x"
+            onPress={() => void update($, isOpen, () => false)}
+          />,
+          // Keep clear of the band's own [-] mark in the top right corner of a wide terminal.
+          isSideBySide ? full - 6 : width,
         )}
         {isSideBySide ? (
           <Box flexDirection="row" gap={GAP}>
