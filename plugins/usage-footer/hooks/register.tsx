@@ -452,7 +452,8 @@ export const register: Register = on => {
             key="close"
             plain
             dimColor
-            label="✕"
+            // ✕ is ambiguous-width: terminals draw it two cells wide and the hit area covers one.
+            label={isTerminal ? '×' : '✕'}
             onPress={() => void update($, isOpen, () => false)}
           />,
           // Keep clear of the band's own [-] mark in the top right corner of a wide terminal.
