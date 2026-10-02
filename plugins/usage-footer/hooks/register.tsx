@@ -452,8 +452,7 @@ export const register: Register = on => {
             key="close"
             plain
             dimColor
-            label={isTerminal ? '✕ close' : '✕'}
-            hotkey="x"
+            label="✕"
             onPress={() => void update($, isOpen, () => false)}
           />,
           // Keep clear of the band's own [-] mark in the top right corner of a wide terminal.
