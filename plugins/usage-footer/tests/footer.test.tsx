@@ -30,7 +30,7 @@ for (const surface of ['terminal', 'desktop'] as const) {
   test(`footer before the first scan draws on ${surface}`, async ($, on) => {
     mock.clock(on, { now: SCAN.now })
     const ui = await $.ui.mount({ plugin: 'usage-footer', surface, component: 'SessionMode', props: { modes: ['focus'] } })
-    expect(await ui.find({ type: 'Text', text: /◷/ })).toBeDefined()
+    expect(await ui.find({ type: 'Text', text: surface === 'terminal' ? /cache —/ : /◷/ })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /focus/ })).toBeDefined()
     await ui.unmount()
   })
@@ -54,8 +54,8 @@ for (const surface of ['terminal', 'desktop'] as const) {
     await $.command.run({ command: 'usage-footer', args: '' } as never)
 
     const footer = await $.ui.mount({ plugin: 'usage-footer', surface, component: 'SessionMode', props: { modes: [] } })
-    expect(await footer.find({ type: 'Text', text: /5h \$61/ })).toBeDefined()
-    expect(await footer.find({ type: 'Text', text: /7d \$100/ })).toBeDefined()
+    expect(await footer.find({ type: 'Text', text: surface === 'terminal' ? /5h \$61\.33/ : /5h \$61/ })).toBeDefined()
+    expect(await footer.find({ type: 'Text', text: surface === 'terminal' ? /7d \$100\.30/ : /7d \$100/ })).toBeDefined()
 
     const band = await $.ui.mount({
       plugin: 'usage-footer',

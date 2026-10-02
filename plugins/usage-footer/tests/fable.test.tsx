@@ -35,8 +35,8 @@ for (const surface of ['terminal', 'desktop'] as const) {
     await $.command.run({ command: 'usage-footer', args: '' } as never)
 
     const footer = await $.ui.mount({ plugin: 'usage-footer', surface, component: 'SessionMode', props: { modes: [] } })
-    expect(await footer.find({ type: 'Text', text: /F \$41/ })).toBeDefined()
-    expect(await footer.find({ type: 'Text', text: /5h \$102/ })).toBeDefined()
+    expect(await footer.find({ type: 'Text', text: surface === 'terminal' ? /7d Fable \$40\.50/ : /F \$41/ })).toBeDefined()
+    expect(await footer.find({ type: 'Text', text: surface === 'terminal' ? /5h \$101\.63/ : /5h \$102/ })).toBeDefined()
 
     const band = await $.ui.mount({
       plugin: 'usage-footer',

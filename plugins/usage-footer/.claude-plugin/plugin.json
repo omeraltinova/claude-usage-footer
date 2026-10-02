@@ -1,6 +1,6 @@
 {
   "name": "usage-footer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Footer beside the model name: prompt cache countdown and the API-equivalent cost of your 5-hour and weekly limit windows, colored by whether the limit will last. Click for a per-model token and cost breakdown.",
   "author": {
     "name": "Ömer Faruk Altınova"

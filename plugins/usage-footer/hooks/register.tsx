@@ -286,10 +286,17 @@ export const register: Register = on => {
     const usesFable = isFable(await read($, model))
     const toggle = () => void update($, isOpen, open => !open)
 
-    const cache = leftMs === undefined ? '◷—' : `◷${Math.max(0, Math.ceil(leftMs / MINUTE))}`
-    const window = `5h ${data?.window ? usdShort(data.window.usd) : data ? '$0' : '…'}`
-    const week = `7d ${data ? usdShort(data.week.usd) : '…'}`
-    const fable = `F ${data?.fableWeek ? usdShort(data.fableWeek.usd) : '…'}`
+    // The terminal has room and no ◷ in many fonts: full words and cents there;
+    // the desktop cuts its footer at a fixed width: a glyph and whole dollars.
+    const isTerminal = e.surface === 'terminal'
+    const money = isTerminal ? usd : usdShort
+    const minutes = leftMs === undefined ? undefined : Math.max(0, Math.ceil(leftMs / MINUTE))
+    const cache = isTerminal
+      ? `cache ${minutes === undefined ? '—' : `${minutes}m`}`
+      : `◷${minutes === undefined ? '—' : minutes}`
+    const window = `5h ${data?.window ? money(data.window.usd) : data ? '$0' : '…'}`
+    const week = `7d ${data ? money(data.week.usd) : '…'}`
+    const fable = `${isTerminal ? '7d Fable' : 'F'} ${data?.fableWeek ? money(data.fableWeek.usd) : '…'}`
 
     return (
       <Box flexDirection="row" gap={1}>
@@ -327,6 +334,8 @@ export const register: Register = on => {
     const now = await $.clock.now()
     const leftMs = (await read($, isWorking)) ? (data?.cache?.ttlMin ?? 60) * MINUTE : cacheLeftMs(data, await read($, lastCall), now)
     const width = Math.max(32, Math.min(e.props.bodyColumns - 2, 100))
+    // The terminal band has few rows: no blank line above each table there.
+    const isTerminal = e.surface === 'terminal'
 
     const row = (left: unknown, right: unknown) => (
       <Box flexDirection="row" justifyContent="space-between" width={width}>
@@ -378,7 +387,7 @@ export const register: Register = on => {
           {models.length === 0 ? (
             <Text dimColor>No requests</Text>
           ) : (
-            <Box flexDirection="column" marginTop={1}>
+            <Box flexDirection="column" marginTop={isTerminal ? 0 : 1}>
               <Box flexDirection="row">
                 <Box width={14}>
                   <Text dimColor>Model</Text>
