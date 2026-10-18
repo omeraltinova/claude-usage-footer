@@ -110,8 +110,11 @@ function usdShort(value: number): string {
   return `$${Math.round(value)}`
 }
 
+// Short enough for a column at any size: 1.23B, 512.8M, 453k, 74
 function tokens(value: number): string {
-  if (value >= 1e6) return `${(value / 1e6).toFixed(1)}M`
+  // Rounding 999.7M would print 1000M: values that round up to the next unit move to it.
+  if (value >= 999.5e6) return `${(value / 1e9).toFixed(value >= 1e11 ? 0 : value >= 1e10 ? 1 : 2)}B`
+  if (value >= 999.5e3) return `${(value / 1e6).toFixed(value >= 1e8 ? 0 : 1)}M`
   if (value >= 1e3) return `${(value / 1e3).toFixed(value >= 1e5 ? 0 : 1)}k`
   return String(value)
 }
