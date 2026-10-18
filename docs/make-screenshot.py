@@ -6,7 +6,7 @@ terminal's monospace grid in any font. Run: python docs/make-screenshot.py
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-COLS, ROWS = 92, 27
+COLS, ROWS = 101, 27
 CHAR_W, LINE_H, PAD = 8.4, 20, 16
 FONT = "ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace"
 
@@ -35,15 +35,15 @@ def right(row, end_col, text, color=FG, bold=False):
     put(row, end_col - len(text), text, color, bold)
 
 
-COLUMNS = [('Reqs', 6), ('Input', 8), ('Cache read', 12), ('Cache write', 13), ('Output', 9), ('Hit', 8), ('Cost', 10)]
-SIDE = 88
+COLUMNS = [('Reqs', 6), ('Input', 8), ('Cache read', 12), ('Cache write', 13), ('Output', 9), ('Total', 9), ('Hit', 8), ('Cost', 10)]
+SIDE = 97
 
 
-def section(row, col, title, span, hit, total, color, forecast, models):
+def section(row, col, title, span, all_tokens, hit, total, color, forecast, models):
     put(row, col, title, FG, True)
     put(row, col + len(title), f'  {span}', DIM)
     right(row, col + SIDE, total, color, True)
-    right(row, col + SIDE - len(total), f'cache hit {hit}   ', DIM)
+    right(row, col + SIDE - len(total), f'{all_tokens} tokens · cache hit {hit}   ', DIM)
     put(row + 1, col, forecast, color)
     put(row + 2, col, 'Model', DIM)
     at = col + 14
@@ -65,14 +65,14 @@ put(0, 1, 'API equivalent', FG, True)
 put(0, 15, '  cache 42 min left', DIM)
 put(0, COLS - 9, '×', DIM)
 put(0, COLS - 4, '[-]', DIM)
-section(2, 1, '5-hour window', '14:00 – 19:00', '99.6%', '$18.42', GREEN,
+section(2, 1, '5-hour window', '14:00 – 19:00', '62.2M', '99.6%', '$18.42', GREEN,
         "On pace: won't fill · ~58% at window end · now 31%",
-        [(OPUS, 'Opus 5.5', ['148', '310', '61.2M', '402k', '128k', '99.3%', '$18.30']),
-         (HAIKU, 'Haiku 4.5', ['9', '74', '412k', '38.6k', '1.9k', '90.6%', '$0.12'])])
-section(8, 1, 'Weekly window', 'Thu 11:00 – Thu 11:00', '99.4%', '$163.75', RED,
+        [(OPUS, 'Opus 5.5', ['148', '310', '61.2M', '402k', '128k', '61.7M', '99.3%', '$18.30']),
+         (HAIKU, 'Haiku 4.5', ['9', '74', '412k', '38.6k', '1.9k', '453k', '90.6%', '$0.12'])])
+section(8, 1, 'Weekly window', 'Thu 11:00 – Thu 11:00', '519.6M', '99.4%', '$163.75', RED,
         'On pace: fills ~Wed 10:30 (in 4d 12h) · now 27%',
-        [(OPUS, 'Opus 5.5', ['1342', '2.7k', '512.8M', '3.1M', '1.4M', '99.4%', '$163.21']),
-         (HAIKU, 'Haiku 4.5', ['41', '330', '2.1M', '210k', '9.4k', '90.8%', '$0.54'])])
+        [(OPUS, 'Opus 5.5', ['1342', '2.7k', '512.8M', '3.1M', '1.4M', '517.3M', '99.4%', '$163.21']),
+         (HAIKU, 'Haiku 4.5', ['41', '330', '2.1M', '210k', '9.4k', '2.3M', '90.8%', '$0.54'])])
 put(14, 1, 'At API list prices · all sessions and subagents included', DIM)
 
 # The prompt and its footer

@@ -18,7 +18,8 @@ Click **▾** (or run `/usage-footer`) for a card above the prompt with, per win
 
 - when the limit fills at the current pace, or where it ends the window
 - the total cost and the cache hit rate
-- one row per model: requests, input, cache read, cache write, output, hit rate, cost
+- the total tokens of the window
+- one row per model: requests, input, cache read, cache write, output, total tokens, hit rate, cost
 
 ## How it works
 

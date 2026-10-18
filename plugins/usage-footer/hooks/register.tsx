@@ -351,6 +351,7 @@ export const register: Register = on => {
       ['Cache read', 12],
       ['Cache write', 13],
       ['Output', 9],
+      ['Total', 9],
       ['Hit', 8],
       ['Cost', 10],
     ]
@@ -365,9 +366,15 @@ export const register: Register = on => {
     const section = (title: string, period: UsagePeriod | null, color?: string, note?: string, sectionWidth = width) => {
       const models = period?.models ?? []
       const total = models.reduce(
-        (sum, one) => ({ input: sum.input + one.input, cacheRead: sum.cacheRead + one.cacheRead, cacheWrite: sum.cacheWrite + one.cacheWrite }),
-        { input: 0, cacheRead: 0, cacheWrite: 0 },
+        (sum, one) => ({
+          input: sum.input + one.input,
+          cacheRead: sum.cacheRead + one.cacheRead,
+          cacheWrite: sum.cacheWrite + one.cacheWrite,
+          output: sum.output + one.output,
+        }),
+        { input: 0, cacheRead: 0, cacheWrite: 0, output: 0 },
       )
+      const allTokens = total.input + total.cacheRead + total.cacheWrite + total.output
       return (
         <Box flexDirection="column" width={sectionWidth}>
           {row(
@@ -378,7 +385,7 @@ export const register: Register = on => {
               </Text>
             </Text>,
             <Text>
-              <Text dimColor>{models.length > 0 ? `cache hit ${hitRate(total)}   ` : ''}</Text>
+              <Text dimColor>{models.length > 0 ? `${tokens(allTokens)} tokens · cache hit ${hitRate(total)}   ` : ''}</Text>
               <Text bold color={color}>
                 {usd(period?.usd ?? 0)}
               </Text>
@@ -409,6 +416,7 @@ export const register: Register = on => {
                       tokens(model.cacheRead),
                       tokens(model.cacheWrite),
                       tokens(model.output),
+                      tokens(model.input + model.cacheRead + model.cacheWrite + model.output),
                       hitRate(model),
                       model.isPriced ? usd(model.usd) : 'n/a',
                     ],
@@ -431,10 +439,10 @@ export const register: Register = on => {
     if (fableLimit(list) || (data?.fableWeek?.usd ?? 0) > 0) {
       windows.push(['Weekly · Fable', data?.fableWeek ?? null, fableLimit(list), 7 * DAY])
     }
-    // A wide terminal lays the windows side by side; each needs the table's 80 columns.
+    // A wide terminal lays the windows side by side; each needs the table's 89 columns.
     const GAP = 4
     const sideWidth = Math.floor((full - GAP * (windows.length - 1)) / windows.length)
-    const isSideBySide = isTerminal && sideWidth >= 82
+    const isSideBySide = isTerminal && sideWidth >= 91
     const sections = windows.map(([title, period, limit, lengthMs]) =>
       section(title, period, paceColor(limit, lengthMs, now), forecast(limit, lengthMs, now, tz), isSideBySide ? sideWidth : width),
     )
