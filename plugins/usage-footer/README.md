@@ -42,6 +42,21 @@ claude plugin install usage-footer@claude-usage-footer
 
 Then start a new session, or run `/reload-plugins` in an open one.
 
+## Update
+
+```bash
+claude plugin marketplace update claude-usage-footer
+claude plugin update usage-footer@claude-usage-footer
+```
+
+Then start a new session, or run `/reload-plugins` in an open one.
+
+## Uninstall
+
+```bash
+claude plugin uninstall usage-footer@claude-usage-footer
+```
+
 ## Notes
 
 - Prices are built in (`plugins/usage-footer/scripts/usage-scan.mjs`, `PRICES`) and need updating when Anthropic's prices change.
