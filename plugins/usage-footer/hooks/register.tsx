@@ -177,6 +177,41 @@ async function runNode($: EngineInterface, args: string[]) {
   throw new Error('Node.js not found (install it, or put node on PATH)')
 }
 
+// The card's table: the model, then right-aligned figures. `drop` is the order columns
+// leave a narrow table in (highest first); 0 stays at any width.
+type CardColumn = {
+  key: 'reqs' | 'input' | 'read' | 'write' | 'output' | 'total' | 'hit' | 'cost'
+  label: string
+  width: number
+  drop: number
+}
+const CARD_COLUMNS: CardColumn[] = [
+  { key: 'reqs', label: 'Reqs', width: 6, drop: 0 },
+  { key: 'input', label: 'Input', width: 8, drop: 4 },
+  { key: 'read', label: 'Cache read', width: 12, drop: 0 },
+  { key: 'write', label: 'Cache write', width: 13, drop: 3 },
+  { key: 'output', label: 'Output', width: 9, drop: 1 },
+  { key: 'total', label: 'Total', width: 9, drop: 0 },
+  { key: 'hit', label: 'Hit', width: 8, drop: 2 },
+  { key: 'cost', label: 'Cost', width: 10, drop: 0 },
+]
+const MODEL_WIDTH = 14
+// The least a window takes beside another: the table with every droppable column gone, and some air.
+const SIDE_MIN = 70
+
+// The columns that fit `room` cells, each widened by an even share of what is left (up to `maxGrow`).
+function fitColumns(room: number, maxGrow: number): { columns: Array<CardColumn & { size: number }>; width: number } {
+  let columns = [...CARD_COLUMNS]
+  const used = () => MODEL_WIDTH + columns.reduce((sum, column) => sum + column.width, 0)
+  while (used() > room && columns.some(column => column.drop > 0)) {
+    const next = Math.max(...columns.map(column => column.drop))
+    columns = columns.filter(column => column.drop !== next)
+  }
+  const grow = Math.max(0, Math.min(maxGrow, Math.floor((room - used()) / columns.length)))
+  const sized = columns.map(column => ({ ...column, size: column.width + grow }))
+  return { columns: sized, width: MODEL_WIDTH + sized.reduce((sum, column) => sum + column.size, 0) }
+}
+
 let isScanning = false
 let isScanQueued = false
 
@@ -337,9 +372,10 @@ export const register: Register = on => {
     const now = await $.clock.now()
     const leftMs = (await read($, isWorking)) ? (data?.cache?.ttlMin ?? 60) * MINUTE : cacheLeftMs(data, await read($, lastCall), now)
     const full = Math.max(32, e.props.bodyColumns - 2)
-    const width = Math.min(full, 100)
     // The terminal band has few rows: no blank line above each table there.
     const isTerminal = e.surface === 'terminal'
+    // The desktop keeps its fixed card; the terminal's fills the width it has.
+    const width = isTerminal ? full : Math.min(full, 100)
 
     const row = (left: unknown, right: unknown, rowWidth = width) => (
       <Box flexDirection="row" justifyContent="space-between" width={rowWidth}>
@@ -347,26 +383,18 @@ export const register: Register = on => {
         {right}
       </Box>
     )
-    // Columns: the model, then right-aligned figures.
-    const COLUMNS: Array<[string, number]> = [
-      ['Reqs', 6],
-      ['Input', 8],
-      ['Cache read', 12],
-      ['Cache write', 13],
-      ['Output', 9],
-      ['Total', 9],
-      ['Hit', 8],
-      ['Cost', 10],
-    ]
-    const cells = (values: string[], isHeader: boolean) =>
-      COLUMNS.map(([, size], at) => (
-        <Box width={size} justifyContent="flex-end">
-          <Text dimColor={isHeader} bold={!isHeader && at === COLUMNS.length - 1}>
-            {values[at] ?? ''}
+    // A header row (values null) or a model's row, in the columns that fit.
+    const cells = (columns: Array<CardColumn & { size: number }>, values: Record<CardColumn['key'], string> | null) =>
+      columns.map(column => (
+        <Box width={column.size} justifyContent="flex-end">
+          <Text dimColor={values === null} bold={values !== null && column.key === 'cost'}>
+            {values === null ? column.label : values[column.key]}
           </Text>
         </Box>
       ))
-    const section = (title: string, period: UsagePeriod | null, color?: string, note?: string, sectionWidth = width) => {
+    const section = (title: string, period: UsagePeriod | null, color?: string, note?: string, room = width) => {
+      const table = fitColumns(room, isTerminal ? 6 : 0)
+      const sectionWidth = table.width
       const models = period?.models ?? []
       const total = models.reduce(
         (sum, one) => ({
@@ -401,30 +429,27 @@ export const register: Register = on => {
           ) : (
             <Box flexDirection="column" marginTop={isTerminal ? 0 : 1}>
               <Box flexDirection="row">
-                <Box width={14}>
+                <Box width={MODEL_WIDTH}>
                   <Text dimColor>Model</Text>
                 </Box>
-                {cells(COLUMNS.map(([label]) => label), true)}
+                {cells(table.columns, null)}
               </Box>
               {models.map(model => (
                 <Box flexDirection="row">
-                  <Box width={14} flexDirection="row" gap={1}>
+                  <Box width={MODEL_WIDTH} flexDirection="row" gap={1}>
                     <Text color={modelColor(model.model)}>●</Text>
                     <Text>{modelName(model.model)}</Text>
                   </Box>
-                  {cells(
-                    [
-                      String(model.reqs),
-                      tokens(model.input),
-                      tokens(model.cacheRead),
-                      tokens(model.cacheWrite),
-                      tokens(model.output),
-                      tokens(model.input + model.cacheRead + model.cacheWrite + model.output),
-                      hitRate(model),
-                      model.isPriced ? usd(model.usd) : 'n/a',
-                    ],
-                    false,
-                  )}
+                  {cells(table.columns, {
+                    reqs: String(model.reqs),
+                    input: tokens(model.input),
+                    read: tokens(model.cacheRead),
+                    write: tokens(model.cacheWrite),
+                    output: tokens(model.output),
+                    total: tokens(model.input + model.cacheRead + model.cacheWrite + model.output),
+                    hit: hitRate(model),
+                    cost: model.isPriced ? usd(model.usd) : 'n/a',
+                  })}
                 </Box>
               ))}
             </Box>
@@ -442,13 +467,24 @@ export const register: Register = on => {
     if (fableLimit(list) || (data?.fableWeek?.usd ?? 0) > 0) {
       windows.push(['Weekly · Fable', data?.fableWeek ?? null, fableLimit(list), 7 * DAY])
     }
-    // A wide terminal lays the windows side by side; each needs the table's 89 columns.
+    // The terminal puts as many windows side by side as get SIDE_MIN columns each,
+    // the rest wrapping to the next row; one per row below that, at the full width.
     const GAP = 4
-    const sideWidth = Math.floor((full - GAP * (windows.length - 1)) / windows.length)
-    const isSideBySide = isTerminal && sideWidth >= 91
+    let perRow = 1
+    if (isTerminal) {
+      for (let count = windows.length; count > 1; count -= 1) {
+        if (Math.floor((full - GAP * (count - 1)) / count) >= SIDE_MIN) {
+          perRow = count
+          break
+        }
+      }
+    }
+    const room = perRow > 1 ? Math.floor((full - GAP * (perRow - 1)) / perRow) : width
     const sections = windows.map(([title, period, limit, lengthMs]) =>
-      section(title, period, paceColor(limit, lengthMs, now), forecast(limit, lengthMs, now, tz), isSideBySide ? sideWidth : width),
+      section(title, period, paceColor(limit, lengthMs, now), forecast(limit, lengthMs, now, tz), room),
     )
+    const rows: unknown[][] = []
+    for (let at = 0; at < sections.length; at += perRow) rows.push(sections.slice(at, at + perRow))
 
     return (
       <Box flexDirection="column" gap={1} paddingX={1}>
@@ -468,15 +504,15 @@ export const register: Register = on => {
             onPress={() => void update($, isOpen, () => false)}
           />,
           // Keep clear of the band's own [-] mark in the top right corner of a wide terminal.
-          isSideBySide ? full - 6 : width,
+          isTerminal ? full - 6 : width,
         )}
-        {isSideBySide ? (
-          <Box flexDirection="row" gap={GAP}>
-            {sections}
-          </Box>
-        ) : (
-          sections
-        )}
+        {perRow > 1
+          ? rows.map(group => (
+              <Box flexDirection="row" gap={GAP}>
+                {group}
+              </Box>
+            ))
+          : sections}
         {failure && <Text color={DANGER}>Scan error: {failure}</Text>}
         <Text dimColor>At API list prices · all sessions and subagents included</Text>
       </Box>

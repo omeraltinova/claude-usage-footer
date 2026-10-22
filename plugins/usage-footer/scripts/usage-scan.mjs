@@ -28,13 +28,17 @@ const PRICES = [
   ['opus-4-6', 5, 25, 0.1],
   ['opus-4-5', 5, 25, 0.1],
   ['opus-4', 15, 75, 0.1],
-  ['sonnet-5-5', 2, 10, 0.1],
+  ['sonnet-5-5', 2, 10, 0.05],
   ['sonnet-5', 2, 10, 0.1],
   ['sonnet-4', 3, 15, 0.1],
   ['sonnet-3', 3, 15, 0.1],
+  ['haiku-5-5', 0.1, 0.5, 0.1],
   ['haiku-4', 1, 5, 0.1],
   ['haiku-3-5', 0.8, 4, 0.1],
 ]
+// Haiku 5.5 is priced by prompt length: a request whose prompt (uncached input, cache
+// reads and cache writes together) is over 100,000 tokens pays these instead.
+const LONG_PROMPT = { match: 'haiku-5-5', tokens: 100_000, price: ['haiku-5-5', 0.5, 2.5, 0.1] }
 // Fast mode multiplies every token price (Opus 5 / 5.5: 2x).
 const FAST_MULTIPLIER = 2
 const WEB_SEARCH_USD = 0.01
@@ -49,7 +53,9 @@ function priceOf(model) {
 }
 
 function costOf(entry) {
-  const price = priceOf(entry.m)
+  const prompt = entry.i + entry.cr + entry.c5 + entry.c1
+  const isLong = entry.m.includes(LONG_PROMPT.match) && prompt > LONG_PROMPT.tokens
+  const price = isLong ? LONG_PROMPT.price : priceOf(entry.m)
   if (!price) return 0
   const [, input, output, readRatio] = price
   const tokens =
