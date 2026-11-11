@@ -17,6 +17,8 @@ const CACHE_VERSION = 2
 // $ per million tokens: [match, input, output, cache-read ratio of input]
 // Cache writes are 1.25x input (5 min TTL) and 2x input (1 hour TTL).
 const PRICES = [
+  ['fable-5-2', 8, 40, 0.025],
+  ['mythos-5-2', 8, 40, 0.025],
   ['fable-5-1', 10, 50, 0.025],
   ['mythos-5-1', 10, 50, 0.025],
   ['fable-5', 10, 50, 0.1],
